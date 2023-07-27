@@ -7,5 +7,6 @@ import (
 )
 
 func main() {
-	fmt.Print(virtenv.GetCommand())
+	venvDirs := []string{"venv", ".venv"}
+	fmt.Print(virtenv.GetCommand(venvDirs))
 }
