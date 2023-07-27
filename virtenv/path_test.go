@@ -91,6 +91,7 @@ var absPathContainsCases = []absPathContainsTestCase{
 	{"does not containl", "/foo/bar", "/baz/meow", false},
 	{"reversed", "/foo/bar", "/foo", false},
 	{"not abs", ".", "/foo", false},
+	{"same name", "/foo/bar/baz", "/bar/foo/baz", false},
 }
 
 func TestAbsPathContains(t *testing.T) {

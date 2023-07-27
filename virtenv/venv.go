@@ -23,19 +23,8 @@ func getVenv() Venv {
 	return Venv{Active: len(venvPath) > 0, VenvPath: venvPath}
 }
 
-type VenvMeta struct {
-	venv           Venv
-	cwd            string
-	venvDirs       []string
-	activateScript string
-}
-
-func getCommandOnVenv(vm VenvMeta) string {
-	venv, cwd := vm.venv, vm.cwd
-	venvDirs, scriptToSearch := vm.venvDirs, vm.activateScript
-
+func getCommandOnVenv(venv Venv, cwd, script string) string {
 	if !venv.Active {
-		script := searchScriptRecursively(cwd, venvDirs, scriptToSearch)
 		if script == "" {
 			return emptyCmd
 		}
@@ -67,11 +56,8 @@ func GetCommand(venvDirs []string) string {
 
 	venv := getVenv()
 	debugLog(fmt.Sprintf("Venv status: %v", venv))
-	meta := VenvMeta{
-		venv:           venv,
-		cwd:            cwd,
-		venvDirs:       venvDirs,
-		activateScript: activateScript,
-	}
-	return getCommandOnVenv(meta)
+
+	script := searchScriptRecursively(cwd, venvDirs, activateScript)
+
+	return getCommandOnVenv(venv, cwd, script)
 }
