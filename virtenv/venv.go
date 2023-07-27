@@ -43,6 +43,11 @@ func getCommandOnVenv(venv Venv, cwd, script string) string {
 		return emptyCmd
 	}
 
+	if script != "" && !absPathContains(venvParentPath, script) {
+		debugLog("We are in dir with new script, activating it: " + script)
+		return fmt.Sprintf("%s && source %s", deactivateCmd, script)
+	}
+
 	debugLog(fmt.Sprintf("Venv parent: %s DOES NOT contain cwd: %s", venvParentPath, cwd))
 	// In case of some kind of broken situation where we dont have deactivate()
 	return deactivateCmd

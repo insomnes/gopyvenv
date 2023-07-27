@@ -40,11 +40,18 @@ var getCommandOnVenvCases = []getCommandOnVenvTestCase{
 		expected: emptyCmd,
 	},
 	{
-		name:     "active not contains",
+		name:     "active not contains no script",
 		venv:     Venv{true, "/foo/venv"},
 		cwd:      "/bar/baz",
-		script:   "/foo/venv/bin/activate",
+		script:   "",
 		expected: deactivateCmd,
+	},
+	{
+		name:     "active not contains new script",
+		venv:     Venv{true, "/some/venv"},
+		cwd:      "/foo",
+		script:   "/foo/venv/bin/activate",
+		expected: deactivateCmd + " && source /foo/venv/bin/activate",
 	},
 }
 
