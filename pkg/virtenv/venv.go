@@ -30,7 +30,7 @@ func getCommandOnVenv(venv Venv, cwd, script string) string {
 		if script == "" {
 			return emptyCmd
 		}
-		return fmt.Sprintf("source %s", script)
+		return fmt.Sprintf("source '%s'", script)
 	}
 
 	venvParentPath := filepath.Dir(venv.VenvPath)
@@ -47,7 +47,7 @@ func getCommandOnVenv(venv Venv, cwd, script string) string {
 
 	if script != "" && !absPathContains(venvParentPath, script) {
 		infra.DebugLog("We are in dir with new script, activating it: " + script)
-		return fmt.Sprintf("%s && source %s", deactivateCmd, script)
+		return fmt.Sprintf("%s && source '%s'", deactivateCmd, script)
 	}
 
 	infra.DebugLog(fmt.Sprintf("Venv parent: %s DOES NOT contain cwd: %s", venvParentPath, cwd))

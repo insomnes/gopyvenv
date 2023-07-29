@@ -23,7 +23,7 @@ var getCommandOnVenvCases = []getCommandOnVenvTestCase{
 		venv:     Venv{false, "/foo"},
 		cwd:      "",
 		script:   "/foo/bar",
-		expected: "source /foo/bar",
+		expected: "source '/foo/bar'",
 	},
 	{
 		name:     "active nonsense path",
@@ -51,7 +51,7 @@ var getCommandOnVenvCases = []getCommandOnVenvTestCase{
 		venv:     Venv{true, "/some/venv"},
 		cwd:      "/foo",
 		script:   "/foo/venv/bin/activate",
-		expected: deactivateCmd + " && source /foo/venv/bin/activate",
+		expected: deactivateCmd + " && source '/foo/venv/bin/activate'",
 	},
 }
 
