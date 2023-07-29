@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+
+	"github.com/insomnes/gopyvenv/pkg/infra"
 )
 
 const (
@@ -32,23 +34,23 @@ func getCommandOnVenv(venv Venv, cwd, script string) string {
 	}
 
 	venvParentPath := filepath.Dir(venv.VenvPath)
-	debugLog(fmt.Sprintf("Venv parent path: %s", venvParentPath))
+	infra.DebugLog(fmt.Sprintf("Venv parent path: %s", venvParentPath))
 	if venvParentPath == "." {
-		debugLog("Venv parent is '.' something is broken")
+		infra.DebugLog("Venv parent is '.' something is broken")
 		return emptyCmd
 	}
 
 	if absPathContains(venvParentPath, cwd) {
-		debugLog(fmt.Sprintf("Venv parent: %s contains cwd: %s", venvParentPath, cwd))
+		infra.DebugLog(fmt.Sprintf("Venv parent: %s contains cwd: %s", venvParentPath, cwd))
 		return emptyCmd
 	}
 
 	if script != "" && !absPathContains(venvParentPath, script) {
-		debugLog("We are in dir with new script, activating it: " + script)
+		infra.DebugLog("We are in dir with new script, activating it: " + script)
 		return fmt.Sprintf("%s && source %s", deactivateCmd, script)
 	}
 
-	debugLog(fmt.Sprintf("Venv parent: %s DOES NOT contain cwd: %s", venvParentPath, cwd))
+	infra.DebugLog(fmt.Sprintf("Venv parent: %s DOES NOT contain cwd: %s", venvParentPath, cwd))
 	// In case of some kind of broken situation where we dont have deactivate()
 	return deactivateCmd
 }
@@ -60,7 +62,7 @@ func GetCommand(venvDirs []string) string {
 	}
 
 	venv := getVenv()
-	debugLog(fmt.Sprintf("Venv status: %v", venv))
+	infra.DebugLog(fmt.Sprintf("Venv status: %v", venv))
 
 	script := searchScriptRecursively(cwd, venvDirs, activateScript)
 
