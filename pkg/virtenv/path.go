@@ -1,6 +1,7 @@
 package virtenv
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -49,4 +50,27 @@ func searchScriptRecursively(cwd string, venvDirs []string, script string) strin
 	}
 
 	return ""
+}
+
+var combDels = [...]string{"_", "-"}
+
+func cwdCombinations(cwd string, venvDirs []string) []string {
+	if cwd == "/" {
+		return venvDirs
+	}
+	projName := filepath.Base(cwd)
+
+	infra.DebugLog("Cut cwd to: " + projName)
+	combined := make([]string, 0, len(venvDirs)*(len(combDels)+1))
+	for _, vd := range venvDirs {
+		combined = append(combined, vd)
+		if projName == "." || projName == "" {
+			continue
+		}
+		for _, d := range combDels {
+			combined = append(combined, projName+d+vd)
+		}
+	}
+	infra.DebugLog(fmt.Sprintf("Combined venv dirs: %v", combined))
+	return combined
 }

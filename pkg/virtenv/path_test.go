@@ -4,6 +4,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"reflect"
 	"testing"
 )
 
@@ -99,6 +100,61 @@ func TestAbsPathContains(t *testing.T) {
 		contains := absPathContains(testCase.src, testCase.dst)
 		if contains != testCase.expected {
 			t.Errorf("Failed test: %s => %t != %t", testCase.name, contains, testCase.expected)
+		}
+	}
+}
+
+type cwdCombinationsTestCase struct {
+	name     string
+	cwd      string
+	venvDirs []string
+	expected []string
+}
+
+var cwdCombintationsCases = []cwdCombinationsTestCase{
+	{
+		"simple",
+		"/foo/bar",
+		[]string{"venv"},
+		[]string{"venv", "bar_venv", "bar-venv"},
+	},
+	{
+		"multiple venvDirs",
+		"/foo/bar",
+		[]string{"venv1", "venv2"},
+		[]string{"venv1", "bar_venv1", "bar-venv1", "venv2", "bar_venv2", "bar-venv2"},
+	},
+	{
+		"nested cwd",
+		"/foo/bar/baz",
+		[]string{"venv"},
+		[]string{"venv", "baz_venv", "baz-venv"},
+	},
+	{
+		"no venvDirs",
+		"/foo/bar",
+		[]string{},
+		[]string{},
+	},
+	{
+		"root cwd",
+		"/",
+		[]string{"venv"},
+		[]string{"venv"},
+	},
+	{
+		"empty cwd",
+		"",
+		[]string{"venv"},
+		[]string{"venv"},
+	},
+}
+
+func TestCwdCombinations(t *testing.T) {
+	for _, tc := range cwdCombintationsCases {
+		combined := cwdCombinations(tc.cwd, tc.venvDirs)
+		if !reflect.DeepEqual(combined, tc.expected) {
+			t.Errorf("Failed test: %s => %v != %v", tc.name, combined, tc.expected)
 		}
 	}
 }
