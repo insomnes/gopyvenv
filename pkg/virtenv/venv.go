@@ -64,7 +64,9 @@ func GetCommand(venvDirs []string) string {
 	venv := getVenv()
 	infra.DebugLog(fmt.Sprintf("Venv status: %v", venv))
 
-	script := searchScriptRecursively(cwd, venvDirs, activateScript)
+	venvDirsProduct := cwdCombinations(cwd, venvDirs)
+
+	script := searchScriptRecursively(cwd, venvDirsProduct, activateScript)
 
 	return getCommandOnVenv(venv, cwd, script)
 }
