@@ -1,0 +1,17 @@
+# This will export configuration variables, you can adjust them
+export GOPYVENV_ENABLED="1"
+export GOPYVENV_DIR_SEPARATOR=","
+export GOPYVENV_DIR_NAMES="venv,.venv,virtenv,.virtenv"
+
+path+=("$HOME/.gopyvenv/bin")
+
+# HOOK
+# This will help with new terminal instances
+eval "$(gopyvenv)"
+# This will help with cd
+python_venv() {
+  eval "$(gopyvenv)"
+}
+autoload -U add-zsh-hook
+add-zsh-hook chpwd python_venv
+# HOOK END

@@ -3,32 +3,34 @@ package virtenv
 import (
 	"os"
 	"path/filepath"
+
+	"github.com/insomnes/gopyvenv/pkg/infra"
 )
 
 const rootPath = "/"
 
 func absPathContains(src string, target string) bool {
 	msg := "Comparing SRC" + src + " to TARGET " + target
-	debugLog(msg)
+	infra.DebugLog(msg)
 
 	if len(target) < len(src) {
-		debugLog("Target is too short")
+		infra.DebugLog("Target is too short")
 		return false
 	}
 
 	for len(target) >= len(src) {
 		if target == src {
-			debugLog("Target is source")
+			infra.DebugLog("Target is source")
 			return true
 		}
 		target = filepath.Dir(target)
-		debugLog("New TARGET is " + target)
+		infra.DebugLog("New TARGET is " + target)
 		if target == rootPath {
-			debugLog("We are in FS root, so we should stop here")
+			infra.DebugLog("We are in FS root, so we should stop here")
 			return false
 		}
 	}
-	debugLog("Target is too short")
+	infra.DebugLog("Target is too short")
 
 	return false
 }
@@ -39,7 +41,7 @@ func searchScriptRecursively(cwd string, venvDirs []string, script string) strin
 		for _, vd := range venvDirs {
 			scriptPath := filepath.Join(cwd, vd, script)
 			if _, err := os.Stat(scriptPath); err == nil {
-				debugLog("Found activate script file at " + scriptPath)
+				infra.DebugLog("Found activate script file at " + scriptPath)
 				return scriptPath
 			}
 		}
