@@ -4,8 +4,8 @@
 !bin/
 bin/gopyvenv
 config/*
-!config/venv_dirs.cfg.dist
 !config/zsh.inc.dist
+!config/bash.inc.dist
 
 # Binaries for programs and plugins
 *.exe

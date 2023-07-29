@@ -3,15 +3,20 @@ export GOPYVENV_ENABLED="1"
 export GOPYVENV_DIR_SEPARATOR=","
 export GOPYVENV_DIR_NAMES="venv,.venv,virtenv,.virtenv"
 
-path+=("$HOME/.gopyvenv/bin")
+export PATH=$HOME/.gopyvenv/bin:$PATH
 
-# HOOK
 # This will help with new terminal instances
 eval "$(gopyvenv)"
 # This will help with cd
+# change pwd hook
 gopyvenv_check() {
-  eval "$(gopyvenv)"
+    eval "$(gopyvenv)"
 }
-autoload -U add-zsh-hook
-add-zsh-hook chpwd gopyvenv_check
-# HOOK END
+
+case $PROMPT_COMMAND in
+    *gopyvenv_check*)
+        ;;
+    *)
+        PROMPT_COMMAND="${PROMPT_COMMAND:+$(echo "${PROMPT_COMMAND}" | awk '{gsub(/; *$/,"")}1') ; }gopyvenv_check"
+        ;;
+esac
