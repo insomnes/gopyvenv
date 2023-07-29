@@ -1,5 +1,5 @@
 build:
-	go build -o "bin/" cmd/gopyvenv/gopyvenv.go
+	go build -o bin/ cmd/gopyvenv/gopyvenv.go
 
 test:
 	go test -v ./...
