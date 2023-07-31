@@ -3,10 +3,14 @@ Tool to automatically activate your python virtual environment inside project fo
 
 # Install
 ## Auto
-You can run `install.sh` or `make install` for auto-installation. This will install `gopyvenv` to `$HOME/.pyenv` and add include to your `.bashrc` or `.zshrc` file with necessary hooks and you `$PATH` update. 
+You can run `install.sh` or `make install` for auto-installation 
+(`zsh` and `bash` shells are supported). This will install `gopyvenv` to `$HOME/.pyenv`
+and add include to your `.bashrc` or `.zshrc` file with necessary hooks and you `$PATH` update.
 
 ## Manual
-You can also build the file with `make build` or `go build -o bin/ cmd/gopyvenv/gopyvenv.go` and copy from `bin/gopyvenv` somewhere inside your `$PATH`.
+You can also build the file with `make build` or 
+`go build -o bin/ cmd/gopyvenv/gopyvenv.go` and copy from `bin/gopyvenv` 
+somewhere inside your `$PATH`.
 
 Hooks and needed environment variables can be found in `config/zsh.inc.dist` or `config/bash.inc.dist`
 
@@ -15,8 +19,10 @@ Binary will return specific command on new instances of shell or change director
 based on current venv status.
 
 ## No venv is active
-If you have any of: `venv`,`.venv`,`virtenv`, `.virtenv` subdirs with avaliable `bin/activate` srcipt => it will be activated. Dir list is configurable by `GOPYVENV_DIR_NAMES` env var.
-It will also try to search combinations of `projectdir-{iter of venv dirs}` or `projectdir_{iter of venv dirs}` like `gopyvenv-venv` or `gopyvenv_virtenv`. 
+If you have any of: `venv`,`.venv`,`virtenv`, `.virtenv` subdirs with avaliable 
+`bin/activate` srcipt => it will be activated. Dir list is configurable by `GOPYVENV_DIR_NAMES` env var.
+It will also try to search combinations of `projectdir-{iter of venv dirs}` or 
+`projectdir_{iter of venv dirs}` like `gopyvenv-venv` or `gopyvenv_virtenv`. 
 
 ## Venv is active
 Going to child directory will not deactivate, only parent or totally different one will 
