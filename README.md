@@ -17,8 +17,11 @@ Binary will return specific command on new instances of zsh or change directory
 based on current venv status.
 
 ## No venv is active
-If you have `venv` or `.venv` subdir it will be activated. Dir list is configurable by `GOPYVENV_DIR_NAMES` env var.
+If you have any of: `venv`,`.venv`,`virtenv`, `.virtenv` subdirs with avaliable `bin/activate` srcipt => it will be activated. Dir list is configurable by `GOPYVENV_DIR_NAMES` env var.
+It will also try to search combinations of `projectdir-{iter of venv dirs}` or `projectdir_{iter of venv dirs}` like `gopyvenv-venv` or `gopyvenv_virtenv`. 
 
 ## Venv is active
 Going to child directory will not deactivate, only parent or totally different one will 
-cause deactivation. 
+cause deactivation. Going to dir with new virtual environment avaliable will cause 
+deactivation of previous and activation of new virtual environment.
+
