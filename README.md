@@ -1,11 +1,9 @@
 # gopyvenv
 Tool to automatically activate your python virtual environment inside project folder.
 
-Works with `venv` and `.venv` directories.
-
 # Install
 ## Auto
-You can run `install.sh` or `make install` for auto-installation. This will install `gopyvenv` to `$HOME/.pyenv` and add include to your `.bashrc` or `.zshrc` file with necessary hooks. 
+You can run `install.sh` or `make install` for auto-installation. This will install `gopyvenv` to `$HOME/.pyenv` and add include to your `.bashrc` or `.zshrc` file with necessary hooks and you `$PATH` update. 
 
 ## Manual
 You can also build the file with `make build` or `go build -o bin/ cmd/gopyvenv/gopyvenv.go` and copy from `bin/gopyvenv` somewhere inside your `$PATH`.
@@ -13,7 +11,7 @@ You can also build the file with `make build` or `go build -o bin/ cmd/gopyvenv/
 Hooks and needed environment variables can be found in `config/zsh.inc.dist` or `config/bash.inc.dist`
 
 # How it works?
-Binary will return specific command on new instances of zsh or change directory
+Binary will return specific command on new instances of shell or change directory
 based on current venv status.
 
 ## No venv is active
