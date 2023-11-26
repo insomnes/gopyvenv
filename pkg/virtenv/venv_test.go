@@ -1,6 +1,8 @@
 package virtenv
 
-import "testing"
+import (
+	"testing"
+)
 
 type getCommandOnVenvTestCase struct {
 	name     string
@@ -24,6 +26,13 @@ var getCommandOnVenvCases = []getCommandOnVenvTestCase{
 		cwd:      "",
 		script:   "/foo/bar",
 		expected: "source '/foo/bar'",
+	},
+	{
+		name:     "not active parent with script",
+		venv:     Venv{false, "/foo/bar"},
+		cwd:      "/foo/baz",
+		script:   "/foo/bar/activate",
+		expected: "source '/foo/bar/activate'",
 	},
 	{
 		name:     "active nonsense path",
