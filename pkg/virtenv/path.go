@@ -36,9 +36,14 @@ func absPathContains(src string, target string) bool {
 	return false
 }
 
-func searchScriptRecursively(cwd string, venvDirs []string, script string) string {
+func searchScriptRecursively(cwd string, venvDirsBase []string, script string) string {
 	// We don't want errors on non existing script for some reason
 	for len(cwd) > 1 {
+		infra.DebugLog("CWD: " + cwd)
+		venvDirs := cwdCombinations(cwd, venvDirsBase)
+		infra.DebugLog(
+			fmt.Sprintf("Searching for script %s in venv dirs: %v", script, venvDirs),
+		)
 		for _, vd := range venvDirs {
 			scriptPath := filepath.Join(cwd, vd, script)
 			if _, err := os.Stat(scriptPath); err == nil {
